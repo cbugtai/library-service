@@ -1,4 +1,4 @@
-import { Book } from "../models/bookModel";
+import { Book, BookStatus } from "../models/bookModel";
 
 const books: Book[] = [
     {
@@ -7,6 +7,7 @@ const books: Book[] = [
         author: "F. Scott Fitzgerald",
         genre: "Fiction",
         isBorrowed: false,
+        status: BookStatus.AVAILABLE
     },
     {
         id: "2",
@@ -14,6 +15,7 @@ const books: Book[] = [
         author: "George Orwell",
         genre: "Dystopian",
         isBorrowed: false,
+        status: BookStatus.RESERVED
     },
     {
         id: "3",
@@ -21,6 +23,7 @@ const books: Book[] = [
         author: "Harper Lee",
         genre: "Classic",
         isBorrowed: false,
+        status: BookStatus.AVAILABLE
     },
 ];
 
@@ -63,6 +66,7 @@ export const addBook = (
         author: bookData.author,
         genre: bookData.genre,
         isBorrowed: false,
+        status: BookStatus.AVAILABLE
     };
 
     books.push(newBook);
@@ -156,6 +160,9 @@ export const borrowBook = (id: string, borrowerId: string): Book => {
     book.isBorrowed = true;
     book.borrowerId = borrowerId;
 
+    //Update Book Status
+    book.status = BookStatus.BORROWED
+
     // 14 days from now
     book.dueDate = new Date(
         Date.now() + 14 * 24 * 60 * 60 * 1000
@@ -189,6 +196,9 @@ export const returnBook = (id: string): Book => {
     book.isBorrowed = false;
     delete book.borrowerId;
     delete book.dueDate;
+
+    //Update Book Status
+    book.status = BookStatus.AVAILABLE
 
     return book;
 };
