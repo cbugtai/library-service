@@ -1,4 +1,5 @@
-import { Book } from "../models/bookModel.ts";
+import { arrayBuffer } from "stream/consumers";
+import { Book } from "../models/bookModel";
 
 const books: Book[] = [
     {
@@ -24,8 +25,15 @@ const books: Book[] = [
     },
 ];
 
-export const getAllBooks = (): Book[] => {
-    return books;
+export const getAllBooks = (search:string): Book[] => {
+    const filteredBooks:Book[] = [];
+    const filter:string = search.toLowerCase();
+    books.forEach(book => {
+        if (book.title.toLowerCase().includes(filter)){
+            filteredBooks.push(book)
+        }
+    })
+    return filteredBooks.slice(0,50)
 };
 
 /**
