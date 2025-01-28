@@ -13,4 +13,6 @@ export interface Book {
     borrowerId?: string;
     dueDate?: string;
     status: BookStatus;
+    reservedBy?: string; // userId when status is RESERVED
+    reservedDate?: string; // ISO string when reserved
 }
